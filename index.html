@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Industrial Pollution &amp; Global Warming — EVS Assessment &amp; SmokeWatch</title>
+  
+  <!-- Common & Portal Styles -->
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+  <!-- Top Academic Navigation Bar -->
+  <nav class="portal-nav" aria-label="Main Navigation">
+    <div class="portal-nav-inner">
+      <div class="portal-logo">
+        <svg class="svg-icon" viewBox="0 0 24 24" style="color:var(--primary); width:22px; height:22px;">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+        <span>SmokeWatch <span style="font-size:12px; font-weight:500; color:var(--text-muted);">· EVS Project</span></span>
+      </div>
+
+      <ul class="portal-nav-links">
+        <li><a href="#context">Context</a></li>
+        <li><a href="#evs-units">5-Unit EVS</a></li>
+        <li><a href="#solution">Engineering Solution</a></li>
+        <li><a href="#plan">5-Step Plan</a></li>
+        <li><a href="#eia">EIA Risk Matrix</a></li>
+        <li><a href="#sdgs">SDGs</a></li>
+        <li><a href="#roadmap">Roadmap</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button id="btn-portal-theme" class="btn btn-icon" title="Toggle Light/Dark Theme">
+          <svg class="svg-icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <a href="app.html" class="btn btn-primary btn-sm">
+          <svg class="svg-icon" viewBox="0 0 24 24" style="width:14px; height:14px;">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Launch SmokeWatch App
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="portal-hero">
+    <div class="container">
+      <div class="portal-hero-grid">
+        <div>
+          <div class="hero-tag">
+            <span class="live-indicator-dot"></span>
+            Environmental Protection &amp; Climate Action Track
+          </div>
+          <h1>Cleaner Industry for a <em>Cooler, Healthier</em> Planet.</h1>
+          <p class="hero-lead">
+            An engineering assessment and IoT continuous monitoring platform designed to quantify, mitigate, and audit industrial emissions, effluent discharge, and greenhouse gases across Greater Hyderabad's key industrial corridors.
+          </p>
+          <div class="hero-actions">
+            <a href="app.html" class="btn btn-primary" style="padding:12px 22px; font-size:15px;">
+              <svg class="svg-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10 8 16 12 10 16 10 8"/>
+              </svg>
+              Open Interactive Platform
+            </a>
+            <a href="#evs-units" class="btn btn-secondary" style="padding:12px 20px; font-size:15px;">
+              Explore 5-Unit EVS Analysis
+            </a>
+          </div>
+        </div>
+
+        <!-- Live Telemetry Ticker Card -->
+        <div class="hero-telemetry-preview">
+          <div class="telemetry-preview-header">
+            <div>
+              <h3>Patancheru CAAQMS Real-Time Sync</h3>
+              <span style="font-size:11.5px; color:var(--text-muted);">Station Coordinates: 17.532° N, 78.264° E</span>
+            </div>
+            <span class="badge badge-good" id="portal-hero-tag">Live Sensor</span>
+          </div>
+
+          <div style="display:flex; align-items:baseline; gap:16px; margin:14px 0 18px;">
+            <span class="mono" id="portal-hero-aqi" style="font-size:52px; font-weight:800; color:var(--primary); line-height:1;">--</span>
+            <div>
+              <span style="font-weight:700; font-size:15px; display:block;">Air Quality Index (AQI)</span>
+              <span style="font-size:12px; color:var(--text-muted);" id="portal-hero-status-note">Connecting to Open-Meteo API...</span>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:18px;">
+            <div class="pollutant-chip">
+              <span class="p-name">PM2.5</span>
+              <span class="p-val mono" id="portal-hero-pm25" style="font-size:14px;">--</span>
+              <span class="badge mono" style="font-size:9.5px;">Norm: 60</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">PM10</span>
+              <span class="p-val mono" id="portal-hero-pm10" style="font-size:14px;">--</span>
+              <span class="badge mono" style="font-size:9.5px;">Norm: 100</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">SO₂</span>
+              <span class="p-val mono" id="portal-hero-so2" style="font-size:14px;">--</span>
+              <span class="badge mono" style="font-size:9.5px;">Norm: 80</span>
+            </div>
+          </div>
+
+          <a href="app.html" class="btn btn-outline" style="width:100%; justify-content:space-between; font-size:12.5px;">
+            <span>Explore all 8 Hyderabad zones on OpenStreetMap</span>
+            <svg class="svg-icon" viewBox="0 0 24 24" style="width:14px; height:14px;">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metric Overview Stats Bar -->
+  <div class="container">
+    <div class="portal-stats-row">
+      <div class="stat-box">
+        <b>8</b>
+        <span>Major Hyderabad industrial clusters mapped with geospatial boundaries</span>
+      </div>
+      <div class="stat-box">
+        <b>5</b>
+        <span>Core academic units under curriculum Environmental Studies (EVS)</span>
+      </div>
+      <div class="stat-box">
+        <b>6</b>
+        <span>United Nations Sustainable Development Goals mapped and targeted</span>
+      </div>
+      <div class="stat-box">
+        <b>4</b>
+        <span>Year longitudinal continuation roadmap for automated compliance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Problem Statement & Local Hyderabad Context -->
+  <section class="portal-section" id="context">
+    <div class="container">
+      <span class="section-eyebrow">Local Context &amp; Root Cause Analysis</span>
+      <h2 class="section-title">Industrial Growth and Atmospheric Footprint</h2>
+      <p class="section-lead">
+        While industrialization in Telangana drives economic vitality and employment, unmitigated emissions of dust, flue gases, acidic mists, and chemical effluents severely threaten air, groundwater, and soil quality in surrounding communities.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:20px; margin-bottom:32px;">
+        <div class="panel-card">
+          <div style="width:40px; height:40px; border-radius:var(--radius-md); background:rgba(239,68,68,0.12); color:var(--status-severe); display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="stroke-width:2.2;">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3 style="font-size:17px; margin-bottom:8px;">Air &amp; Atmospheric Pollution</h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Heavy concentrations of particulate matter (PM2.5, PM10) from low-grade fuel combustion, alongside sulphur dioxide (SO₂) and nitrogen oxides (NO₂) from industrial boilers, driving regional smog and radiative greenhouse forcing.
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <div style="width:40px; height:40px; border-radius:var(--radius-md); background:rgba(6,182,212,0.12); color:#06b6d4; display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="stroke-width:2.2;">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+          </div>
+          <h3 style="font-size:17px; margin-bottom:8px;">Effluent &amp; Hydrological Stress</h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            High chemical oxygen demand (COD) and ammoniacal nitrogen discharged into streams like Nakkavagu and Shapur Nala, jeopardizing agricultural aquifer quality and downstream catchment reservoirs.
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <div style="width:40px; height:40px; border-radius:var(--radius-md); background:rgba(245,158,11,0.12); color:#f59e0b; display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="stroke-width:2.2;">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </div>
+          <h3 style="font-size:17px; margin-bottom:8px;">Soil Contamination &amp; Sludge</h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Improper handling and dumping of chemical filter cakes, inorganic salts, and ETP hazardous sludge contaminating soil microbiomes and entering groundwater tables through rainwater percolation.
+          </p>
+        </div>
+      </div>
+
+      <!-- Root Cause Analysis Breakdown -->
+      <div class="panel-card" style="background:var(--bg-surface-raised);">
+        <h3 style="font-size:16px; margin-bottom:12px;">Root Causes Identified Through Industrial Field Evidence:</h3>
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; font-size:13.5px; color:var(--text-secondary);">
+          <ul class="evs-check-list">
+            <li><strong>Fossil Fuel Dependence:</strong> Widespread reliance on unwashed thermal coal, furnace oil, and diesel generator sets for steam and captive power.</li>
+            <li><strong>Outdated Abatement Infrastructure:</strong> Delayed maintenance on wet scrubbers, clogged baghouse filters, and inadequate residence times in ETP aeration tanks.</li>
+          </ul>
+          <ul class="evs-check-list">
+            <li><strong>Surveillance Blind Spots:</strong> Intermittent manual grab-sampling rather than continuous digital transmission to State Pollution Control Board servers.</li>
+            <li><strong>Inadequate Zero Liquid Discharge (ZLD):</strong> High operational cost of Multiple Effect Evaporators (MEE) leading to unpermitted night discharges.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: 5-Unit EVS Curriculum Analysis -->
+  <section class="portal-section" id="evs-units">
+    <div class="container">
+      <span class="section-eyebrow">Academic Curriculum Integration</span>
+      <h2 class="section-title">Five-Unit Comprehensive EVS Assessment</h2>
+      <p class="section-lead">
+        Connecting industrial pollution control directly with the five core units of the Environmental Studies syllabus at Hyderabad Institute of Technology and Management (HITAM).
+      </p>
+
+      <!-- Navigation Tabs for the 5 Units -->
+      <div class="evs-tabs-nav" role="tablist">
+        <button class="evs-tab-btn is-active" data-unit="1" role="tab">Unit 1: Environment</button>
+        <button class="evs-tab-btn" data-unit="2" role="tab">Unit 2: Natural Resources</button>
+        <button class="evs-tab-btn" data-unit="3" role="tab">Unit 3: Ecosystems &amp; Biodiversity</button>
+        <button class="evs-tab-btn" data-unit="4" role="tab">Unit 4: Environmental Pollution</button>
+        <button class="evs-tab-btn" data-unit="5" role="tab">Unit 5: Sustainable Development</button>
+      </div>
+
+      <!-- Unit 1 -->
+      <div class="evs-unit-panel is-active" id="unit-panel-1">
+        <div>
+          <span class="badge badge-neutral" style="margin-bottom:10px;">Unit 1 Analysis</span>
+          <h3 style="font-size:22px; margin-bottom:12px;">Environmental Spheres &amp; Industrial Interfaces</h3>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Industrial operations in Hyderabad directly interact with all four environmental spheres: the atmosphere through boiler flue gases, the hydrosphere through effluent discharges, the lithosphere via hazardous solid waste dumping, and the biosphere through chronic chemical exposure.
+          </p>
+          <ul class="evs-check-list">
+            <li>Atmospheric residence time of PM2.5 and volatile organic compounds (VOCs).</li>
+            <li>Thermal inversion during Hyderabad winter months exacerbating ground-level pollutant accumulation.</li>
+          </ul>
+        </div>
+        <div class="panel-card" style="background:var(--bg-surface-raised);">
+          <h4 style="font-size:15px; margin-bottom:10px;">Key Engineering Interventions:</h4>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Continuous ambient air quality monitoring stations (CAAQMS) deployed at industrial perimeter buffers to measure cross-boundary pollutant dispersion before it enters adjacent residential settlements.
+          </p>
+        </div>
+      </div>
+
+      <!-- Unit 2 -->
+      <div class="evs-unit-panel" id="unit-panel-2">
+        <div>
+          <span class="badge badge-neutral" style="margin-bottom:10px;">Unit 2 Analysis</span>
+          <h3 style="font-size:22px; margin-bottom:12px;">Natural Resource Depletion &amp; Circular Conservation</h3>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Industrial processes consume vast volumes of freshwater for cooling towers, raw mineral ores, and fossil fuels. Sustainable operation requires aggressive water recycling and energy conservation.
+          </p>
+          <ul class="evs-check-list">
+            <li>Transitioning from single-pass cooling to closed-loop recycled water systems.</li>
+            <li>Replacing high-sulfur non-coking coal with agricultural briquettes and biomass pellets.</li>
+          </ul>
+        </div>
+        <div class="panel-card" style="background:var(--bg-surface-raised);">
+          <h4 style="font-size:15px; margin-bottom:10px;">Resource Efficiency Benchmark:</h4>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Enforcing condensate water recovery in pharmaceutical distillation units reduces freshwater intake from local water utilities by over 45% per production batch.
+          </p>
+        </div>
+      </div>
+
+      <!-- Unit 3 -->
+      <div class="evs-unit-panel" id="unit-panel-3">
+        <div>
+          <span class="badge badge-neutral" style="margin-bottom:10px;">Unit 3 Analysis</span>
+          <h3 style="font-size:22px; margin-bottom:12px;">Ecosystem Integrity &amp; Biodiversity Safeguards</h3>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Effluent runoff into freshwater wetlands such as Mir Alam Tank (adjacent to Kattedan) and Nakkavagu (Patancheru) causes severe eutrophication, oxygen depletion, and collapse of aquatic food webs.
+          </p>
+          <ul class="evs-check-list">
+            <li>Mitigating chemical bioaccumulation in downstream agriculture and dairy cattle.</li>
+            <li>Establishing 100-meter thick native greenbelt buffers (Neem, Pongamia, Ficus) around factory perimeters.</li>
+          </ul>
+        </div>
+        <div class="panel-card" style="background:var(--bg-surface-raised);">
+          <h4 style="font-size:15px; margin-bottom:10px;">Biological Indicators:</h4>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Routine bio-assay tests using local aquatic species (e.g. 96-hour LC50 toxicity testing on treated effluent) to verify non-toxicity before any river discharge.
+          </p>
+        </div>
+      </div>
+
+      <!-- Unit 4 -->
+      <div class="evs-unit-panel" id="unit-panel-4">
+        <div>
+          <span class="badge badge-neutral" style="margin-bottom:10px;">Unit 4 Analysis</span>
+          <h3 style="font-size:22px; margin-bottom:12px;">Pollution Abatement Technologies &amp; Standards</h3>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Focuses on the core chemical and mechanical engineering systems used to separate, capture, and neutralize hazardous emissions at the industrial source point.
+          </p>
+          <ul class="evs-check-list">
+            <li>Particulate arrest: Cyclone separators followed by pulse-jet bag filters capturing &gt;99% of fly ash.</li>
+            <li>Acid gas scrubbing: Packed-bed counter-current alkaline scrubbers neutralizing SO₂ and HCl mists.</li>
+            <li>Wastewater treatment: Multi-stage biological aeration, dissolved air flotation (DAF), and reverse osmosis.</li>
+          </ul>
+        </div>
+        <div class="panel-card" style="background:var(--bg-surface-raised);">
+          <h4 style="font-size:15px; margin-bottom:10px;">Statutory Thresholds:</h4>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            Strict adherence to Central Pollution Control Board (CPCB) NAAQS standards: PM2.5 &le; 60 µg/m³, PM10 &le; 100 µg/m³, and SO₂ &le; 80 µg/m³ (24-hour weighted averages).
+          </p>
+        </div>
+      </div>
+
+      <!-- Unit 5 -->
+      <div class="evs-unit-panel" id="unit-panel-5">
+        <div>
+          <span class="badge badge-neutral" style="margin-bottom:10px;">Unit 5 Analysis</span>
+          <h3 style="font-size:22px; margin-bottom:12px;">Social Responsibility, Policy &amp; Public Transparency</h3>
+          <p style="font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px;">
+            Environmental protection cannot succeed through equipment alone; it requires robust social awareness, worker occupational safety safeguards, and open data accessibility for affected citizens.
+          </p>
+          <ul class="evs-check-list">
+            <li>Community reporting channels enabling citizens to document visible chimney plumes and illegal effluent bypasses.</li>
+            <li>Corporate compliance with the Water (Prevention and Control of Pollution) Act, 1974 and Air Act, 1981.</li>
+          </ul>
+        </div>
+        <div class="panel-card" style="background:var(--bg-surface-raised);">
+          <h4 style="font-size:15px; margin-bottom:10px;">The SmokeWatch Civic Bridge:</h4>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5;">
+            The SmokeWatch platform operationalizes Unit 5 by providing an auditable, geotagged public reporting system that correlates citizen incident reports with real-time CAAQMS sensor spikes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Proposed Engineering & Technology Solution -->
+  <section class="portal-section" id="solution">
+    <div class="container">
+      <span class="section-eyebrow">Technical Architecture</span>
+      <h2 class="section-title">The SmokeWatch Engineering Solution</h2>
+      <p class="section-lead">
+        A closed-loop pollution mitigation framework combining physical emission abatement equipment with continuous cloud telemetry and public compliance verification.
+      </p>
+
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;">
+        <div class="panel-card">
+          <h3 style="font-size:16px; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="color:var(--primary);">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            1. Continuous Stack OCEMS
+          </h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+            In-stack optical transmissometers measuring plume opacity in real-time alongside differential pressure transducers monitoring scrubber and baghouse status.
+          </p>
+          <span class="badge badge-good">CPCB Compliant</span>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="font-size:16px; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="color:#06b6d4;">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+            2. Common Effluent Telemetry
+          </h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+            Electrochemical probes tracking pH, BOD, COD, and TDS at inlet and outlet conduits of Central Effluent Treatment Plants (PETL &amp; JETL) to prevent toxic drainage overflows.
+          </p>
+          <span class="badge badge-good">TSPCB Schedule VI</span>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="font-size:16px; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="color:#f59e0b;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+              <path d="M2 12h20"/>
+            </svg>
+            3. OpenStreetMap Surveillance
+          </h3>
+          <p style="font-size:13.5px; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+            High-density geospatial map tracking industrial cluster boundaries, ambient air quality indexes, incident hotspots, and verified remediation states.
+          </p>
+          <span class="badge badge-good">Open Geospatial Engine</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Feasibility & 5-Step Implementation Plan -->
+  <section class="portal-section" id="plan">
+    <div class="container">
+      <span class="section-eyebrow">Execution Methodology</span>
+      <h2 class="section-title">Five-Step Implementation Plan</h2>
+      <p class="section-lead">
+        A pragmatic, phased rollout strategy designed for technical feasibility, economic viability, and measurable compliance impact across manufacturing units.
+      </p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num-bubble">1</div>
+          <h3>Assess</h3>
+          <p>
+            Audit emission stacks, wastewater conduits, boiler fuel consumption, and baseline CAAQMS records to determine primary pollution streams and regulatory gaps.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num-bubble">2</div>
+          <h3>Plan</h3>
+          <p>
+            Engineer target abatement hardware specifications: sizing baghouse air-to-cloth ratios, scrubber liquid-to-gas ratios, and establishing numerical CPCB reduction targets.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num-bubble">3</div>
+          <h3>Install &amp; Train</h3>
+          <p>
+            Deploy physical filters, scrubbers, and IoT sensors. Train plant operators on preventative maintenance, sludge handling protocols, and continuous calibration.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num-bubble">4</div>
+          <h3>Test &amp; Verify</h3>
+          <p>
+            Execute continuous online logging. Validate stack particulate concentration (&lt;50 mg/Nm³) and effluent parameters against TSPCB standards with third-party lab audits.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num-bubble">5</div>
+          <h3>Review &amp; Scale</h3>
+          <p>
+            Conduct quarterly compliance audits, evaluate Scope 1 &amp; 2 carbon abatement metrics, and scale successful circular recycling models across neighboring industrial estates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Risk Assessment & Simplified EIA/EMP -->
+  <section class="portal-section" id="eia">
+    <div class="container">
+      <span class="section-eyebrow">Environmental Impact Assessment</span>
+      <h2 class="section-title">Simplified EIA &amp; EMP Risk Matrix</h2>
+      <p class="section-lead">
+        Transparent evaluation of environmental trade-offs, operational risks, and engineered safeguards governing industrial pollution management systems.
+      </p>
+
+      <table class="eia-matrix-table" aria-label="Environmental Impact Assessment Matrix">
+        <thead>
+          <tr>
+            <th>Operational Dimension</th>
+            <th>Potential Environmental Risk / Concern</th>
+            <th>Engineered Mitigation Safeguards (EMP)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Flue Gas Filtration Systems</strong></td>
+            <td>Baghouse filter rupture or scrubber nozzle clogging causing sudden, intense particulate &amp; acid gas bypass.</td>
+            <td>Continuous differential pressure (ΔP) monitoring with automated audible alarms and secondary bypass diversion valves.</td>
+          </tr>
+          <tr>
+            <td><strong>Effluent Neutralization &amp; ZLD</strong></td>
+            <td>Concentrated toxic chemical sludge and spent membrane brine requiring hazardous disposal.</td>
+            <td>Manifest tracking with authorized TSDF (Treatment, Storage &amp; Disposal Facility) sites and stabilization into inert concrete blocks.</td>
+          </tr>
+          <tr>
+            <td><strong>Auxiliary Energy Consumption</strong></td>
+            <td>High electrical load required to run Multiple Effect Evaporators (MEE) and heavy draught fans increasing indirect emissions.</td>
+            <td>Waste heat recovery (WHR) from boiler exhausts paired with captive rooftop solar PV arrays to offset parasitic energy draw.</td>
+          </tr>
+          <tr>
+            <td><strong>Occupational Health &amp; Chemical Safety</strong></td>
+            <td>Worker exposure to caustic scrubbing liquors, ammonia leaks, or airborne silica dust during routine maintenance.</td>
+            <td>Mandatory personal protective equipment (PPE), automated chemical dosing skids, and routine spirometry health checkups.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 6: UN SDG Mapping -->
+  <section class="portal-section" id="sdgs">
+    <div class="container">
+      <span class="section-eyebrow">Global Alignment</span>
+      <h2 class="section-title">Supporting Six UN Sustainable Development Goals</h2>
+      <p class="section-lead">
+        Connecting local pollution control in Telangana with United Nations 2030 Sustainable Development Goals.
+      </p>
+
+      <div class="sdg-cards-grid">
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#4c9f38;">3</div>
+          <div class="sdg-content">
+            <h3>SDG 3: Good Health &amp; Well-Being</h3>
+            <p>Target 3.9: Substantially reduce illnesses and mortality from hazardous chemicals, air pollution, and contaminated water in industrial zones.</p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#26bde2;">6</div>
+          <div class="sdg-content">
+            <h3>SDG 6: Clean Water &amp; Sanitation</h3>
+            <p>Target 6.3: Improve water quality by eliminating dumping, minimizing hazardous chemical release, and halving the proportion of untreated wastewater.</p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#fd6925;">9</div>
+          <div class="sdg-content">
+            <h3>SDG 9: Industry, Innovation &amp; Infrastructure</h3>
+            <p>Target 9.4: Upgrade infrastructure and retrofit industries with clean, environmentally sound technologies and resource-efficient processes.</p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#bf8b2e;">12</div>
+          <div class="sdg-content">
+            <h3>SDG 12: Responsible Consumption &amp; Production</h3>
+            <p>Target 12.4: Achieve environmentally sound management of chemicals and wastes throughout their life cycle to minimize adverse health impacts.</p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#3f7e44;">13</div>
+          <div class="sdg-content">
+            <h3>SDG 13: Climate Action</h3>
+            <p>Target 13.2: Integrate climate change measures into industrial operations by quantifying Scope 1 &amp; 2 GHG emissions and expanding renewables.</p>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-badge-box" style="background:#56c02b;">15</div>
+          <div class="sdg-content">
+            <h3>SDG 15: Life on Land</h3>
+            <p>Target 15.1: Protect terrestrial and inland freshwater ecosystems and restore degraded soil impacted by toxic industrial leachate and chemical dumps.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: 4-Year Academic Continuation Roadmap -->
+  <section class="portal-section" id="roadmap">
+    <div class="container">
+      <span class="section-eyebrow">Longitudinal Academic Scope</span>
+      <h2 class="section-title">Four-Year Continuation Potential</h2>
+      <p class="section-lead">
+        A structured trajectory for future engineering cohorts to advance the SmokeWatch platform from prototype into production regulatory technology.
+      </p>
+
+      <div class="roadmap-timeline">
+        <div class="timeline-year-card">
+          <span class="year-tag">Year 1: Baseline</span>
+          <h3>Sensor Mapping &amp; In-situ Baseline</h3>
+          <p>
+            Deploy IoT sensor nodes across Patancheru and Jeedimetla to validate spatial dispersion models against official CPCB reference stations.
+          </p>
+        </div>
+
+        <div class="timeline-year-card">
+          <span class="year-tag">Year 2: Hardware</span>
+          <h3>Stack Scrubbers &amp; Automated Dosing</h3>
+          <p>
+            Prototype automated alkali dosing mechanisms for wet scrubbers and edge-computed stack opacity analysis using computer vision.
+          </p>
+        </div>
+
+        <div class="timeline-year-card">
+          <span class="year-tag">Year 3: Circularity</span>
+          <h3>Resource Recycling &amp; Solar Offsets</h3>
+          <p>
+            Integrate circular industrial ecology: treated wastewater sharing between chemical units and centralized captive rooftop solar microgrids.
+          </p>
+        </div>
+
+        <div class="timeline-year-card">
+          <span class="year-tag">Year 4: Policy</span>
+          <h3>Autonomous Regulatory Compliance</h3>
+          <p>
+            Deploy tamper-proof blockchain ledgers for continuous emission logs and automated infraction notices tied directly to State PCB APIs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Student Research Team Roster -->
+  <section class="portal-section" id="team">
+    <div class="container">
+      <span class="section-eyebrow">Academic Authorship</span>
+      <h2 class="section-title">Department of Computer Science &amp; Engineering</h2>
+      <p class="section-lead">
+        Hyderabad Institute of Technology and Management (HITAM) · Environmental Studies (EVS) Project Assessment · Class CSE-B
+      </p>
+
+      <div class="team-grid">
+        <div class="team-member-card">
+          <div class="team-avatar">BR</div>
+          <div class="team-info">
+            <h4>Bhavana Reddy</h4>
+            <span>Roll No: 26E51A0564</span>
+          </div>
+        </div>
+
+        <div class="team-member-card">
+          <div class="team-avatar">AJ</div>
+          <div class="team-info">
+            <h4>Anwita Jayanthi</h4>
+            <span>Roll No: 26E51A05B2</span>
+          </div>
+        </div>
+
+        <div class="team-member-card">
+          <div class="team-avatar">UC</div>
+          <div class="team-info">
+            <h4>Upendhar Chary</h4>
+            <span>Roll No: 26E51A05C2</span>
+          </div>
+        </div>
+
+        <div class="team-member-card">
+          <div class="team-avatar">PR</div>
+          <div class="team-info">
+            <h4>Pranith Reddy</h4>
+            <span>Roll No: 26E51A0592</span>
+          </div>
+        </div>
+
+        <div class="team-member-card">
+          <div class="team-avatar">VR</div>
+          <div class="team-info">
+            <h4>Vishwak Reddy</h4>
+            <span>Roll No: 26E51A05B4</span>
+          </div>
+        </div>
+
+        <div class="team-member-card">
+          <div class="team-avatar">HJ</div>
+          <div class="team-info">
+            <h4>Harshit Jala</h4>
+            <span>Roll No: 26E51A05B0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portal Footer -->
+  <footer class="portal-footer">
+    <div class="container">
+      <div class="portal-footer-grid">
+        <div>
+          <div class="portal-logo" style="margin-bottom:12px;">
+            <svg class="svg-icon" viewBox="0 0 24 24" style="color:var(--primary); width:20px; height:20px;">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span>SmokeWatch Project Portal</span>
+          </div>
+          <p style="font-size:13px; line-height:1.6; max-width:380px;">
+            An academic research initiative developed by CSE-B students of Hyderabad Institute of Technology and Management (HITAM) to advance industrial environmental compliance and real-time atmospheric telemetry.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-size:14px; margin-bottom:12px; color:var(--text-primary);">Statutory Bodies &amp; References</h4>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px;">
+            <li><a href="https://cpcb.nic.in/" target="_blank" rel="noopener" style="color:var(--text-secondary); hover:color:var(--text-primary);">Central Pollution Control Board (CPCB)</a></li>
+            <li><a href="https://tspcb.cgg.gov.in/" target="_blank" rel="noopener" style="color:var(--text-secondary);">Telangana State Pollution Control Board (TSPCB)</a></li>
+            <li><a href="https://moef.gov.in/" target="_blank" rel="noopener" style="color:var(--text-secondary);">Ministry of Environment, Forest &amp; Climate Change (MoEFCC)</a></li>
+            <li><a href="https://sdgs.un.org/goals" target="_blank" rel="noopener" style="color:var(--text-secondary);">UN Sustainable Development Goals (SDGs)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size:14px; margin-bottom:12px; color:var(--text-primary);">Applications &amp; Codebase</h4>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px;">
+            <li><a href="app.html" style="color:var(--primary); font-weight:600;">Launch SmokeWatch Live Platform &rarr;</a></li>
+            <li><a href="#evs-units" style="color:var(--text-secondary);">5-Unit EVS Analysis Explorer</a></li>
+            <li><a href="#plan" style="color:var(--text-secondary);">5-Step Implementation Plan</a></li>
+            <li><a href="#team" style="color:var(--text-secondary);">Student Research Authors</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:36px; padding-top:20px; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; font-size:12px; color:var(--text-muted); flex-wrap:wrap; gap:10px;">
+        <span>&copy; 2026 HITAM CSE-B Environmental Studies Project Team. Open academic license.</span>
+        <span>Telemetry powered by Open-Meteo &amp; Leaflet OpenStreetMap.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/portal.js"></script>
+</body>
+</html>

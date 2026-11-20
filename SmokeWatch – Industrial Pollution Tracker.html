@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SmokeWatch – Industrial Pollution Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f8;--sf:#fff;--ink:#16213a;--mu:#6b7794;--ln:#e2e8f3;--br:#1fb386;--soft:#e8f6f1;--am:#f5a524;--hero:#1b2a4a;--hi:#fff;--bad:#ef6a3a;--ok:#1fb386;--mid:#f5a524;--sh:0 6px 20px rgba(27,42,74,.09);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1730;--sf:#172344;--ink:#eef2fb;--mu:#9aa7c7;--ln:#26345c;--soft:#1b2c4f;--sh:0 6px 20px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#0e1730;--sf:#172344;--ink:#eef2fb;--mu:#9aa7c7;--ln:#26345c;--soft:#1b2c4f;--sh:0 6px 20px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif;padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hero);z-index:60}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0;line-height:1.2}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--hero);color:#fff;padding:14px 18px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:0 0 24px 24px}
+header b{font:700 21px Fraunces,Georgia,serif;display:flex;gap:8px;align-items:center}header b i{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#1fb386,#f5a524);display:grid;place-items:center;font-style:normal;font-size:15px}
+header span{font-size:12px;opacity:.7}header .pill{background:rgba(255,255,255,.14);padding:5px 12px;border-radius:99px;opacity:1}
+main{max-width:560px;margin:0 auto;padding:16px}
+.view{display:none}.view.on{display:block}
+.card{background:var(--sf);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:var(--sh)}
+.card h3{font-size:17px;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mu{color:var(--mu);font-size:13px}
+.hero{background:radial-gradient(circle at 85% 0,rgba(245,165,36,.35),transparent 45%),radial-gradient(circle at 0 100%,rgba(31,179,134,.4),transparent 50%),linear-gradient(160deg,#1b2a4a,#263d6b);color:#fff;text-align:center;padding:22px 18px 18px}
+.hero .mu{color:rgba(255,255,255,.75)}
+.hero .big{font:700 64px Fraunces,Georgia,serif;display:block;line-height:1;margin-top:-6px}
+.lvl{display:inline-block;margin:8px 0 6px;padding:6px 14px;border-radius:99px;background:var(--bad);color:#fff;font-weight:600;font-size:13px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.chip{background:var(--soft);border-radius:14px;padding:10px 4px;text-align:center;font-size:11px;color:var(--mu)}.chip b{display:block;font-size:17px;color:var(--ink)}
+.hero .chip{background:rgba(255,255,255,.12);color:rgba(255,255,255,.75)}.hero .chip b{color:#fff}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.tile{border-radius:20px;padding:16px;color:#fff;box-shadow:var(--sh)}.tile b{font:700 26px Fraunces,Georgia,serif;display:block}.tile span{font-size:12px;opacity:.9}
+.t1{background:linear-gradient(135deg,#1fb386,#0f8a68)}.t2{background:linear-gradient(135deg,#f5a524,#e0791a)}
+.gauge{text-align:center}.gauge b{font:700 44px Fraunces,Georgia,serif;display:block;line-height:1}
+.badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.v{background:rgba(31,179,134,.15);color:var(--ok)}.e{background:rgba(245,165,36,.18);color:#c98512}.s{background:var(--soft);color:var(--mu)}
+.list{list-style:none;margin:0;padding:0}.list li{padding:11px 0;border-top:1px solid var(--ln)}.list li:first-child{border-top:0}
+.ico{width:42px;height:42px;border-radius:14px;background:var(--soft);display:grid;place-items:center;font-size:20px;flex:none}.grow{flex:1}
+.bars{display:flex;align-items:flex-end;gap:4px;height:100px;margin-top:6px}.bars i{flex:1;border-radius:6px;background:linear-gradient(180deg,#1fb386,#14825f)}.bars i.f{background:linear-gradient(180deg,#f5a524,#e0791a);opacity:.7}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 5px}
+select,input,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);font:inherit}
+.btn{margin-top:14px;width:100%;padding:14px;border:0;border-radius:16px;background:linear-gradient(135deg,#1fb386,#14825f);color:#fff;font:600 15px Inter,sans-serif;cursor:pointer;box-shadow:0 8px 18px rgba(31,179,134,.35)}
+nav{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:14px;right:14px;max-width:532px;margin:0 auto;background:var(--hero);border-radius:26px;display:flex;padding:8px;z-index:50;box-shadow:0 10px 28px rgba(27,42,74,.4)}
+nav button{flex:1;background:none;border:0;color:rgba(255,255,255,.6);font:500 11px Inter,sans-serif;padding:7px;border-radius:20px;cursor:pointer}nav button span{display:block;font-size:20px}
+nav button.on{background:rgba(255,255,255,.14);color:#fff;font-weight:700}
+.map{width:100%;border-radius:18px;background:linear-gradient(160deg,#1b2a4a,#263d6b)}.map circle{cursor:pointer;stroke:#fff;stroke-width:2}
+.note{font-size:12px;color:var(--mu);text-align:center;margin:18px 6px}
+</style>
+</head>
+<body>
+<header><div><b><i>🏭</i>SmokeWatch</b><span>Cleaner industry, cooler planet · Hyderabad</span></div><span class="pill">Guest</span></header>
+<main>
+
+<section class="view on" id="home">
+ <div class="card hero">
+  <div class="mu">Industrial Pollution Index · today</div>
+  <span class="big" id="idx">142</span><span class="lvl" id="lvl">Poor near industrial zones</span>
+  <div class="mu">Workers and nearby residents should limit outdoor exposure.</div>
+  <div class="chips"><div class="chip"><b>58</b>PM2.5 µg/m³</div><div class="chip"><b>34</b>SO₂ µg/m³</div><div class="chip"><b>61</b>NOx µg/m³</div><div class="chip"><b>468</b>CO₂ ppm*</div></div>
+ </div>
+ <div class="tiles"><div class="tile t1"><b>38</b><span>Units with scrubbers fitted</span></div><div class="tile t2"><b>12,480 t</b><span>CO₂ cut this year (sample)</span></div></div>
+ <div class="card"><div class="row"><h3>Emissions through the day</h3><span class="badge e">Estimated</span></div><div class="bars" id="bars"></div><div class="mu">After 4 PM bars (amber) are model estimates.</div></div>
+ <div class="card"><h3>Industry alerts</h3><ul class="list">
+  <li class="row"><div class="ico">💨</div><div class="grow">Smoke plume spotted near Jeedimetla<div class="mu">20 min ago</div></div><span class="badge e">Estimated</span></li>
+  <li class="row"><div class="ico">💧</div><div class="grow">Effluent discharge into Nacharam drain<div class="mu">2 h ago</div></div><span class="badge v">Verified</span></li>
+  <li class="row"><div class="ico">✅</div><div class="grow">Scrubber upgrade completed, Patancheru unit<div class="mu">Yesterday</div></div><span class="badge s">Sample</span></li></ul></div>
+ <div class="card"><h3>Latest citizen reports</h3><ul class="list" id="latest"></ul></div>
+</section>
+
+<section class="view" id="zones">
+ <div class="card"><h3>Industrial zones</h3>
+  <svg class="map" viewBox="0 0 320 240" id="map" role="img" aria-label="Schematic map of industrial zones">
+   <path d="M0 150 Q80 120 150 140 T320 120" stroke="#34508a" stroke-width="10" fill="none"/><text x="10" y="232" font-size="10" fill="#9fb0d4">Schematic, not to scale</text>
+  </svg>
+  <div id="zinfo" class="mu" style="margin-top:10px">Tap a zone to see its pollution profile.</div></div>
+</section>
+
+<section class="view" id="report">
+ <div class="card"><h3>Report an industrial issue</h3>
+  <label for="rt">What did you see?</label>
+  <select id="rt"><option>💨 Smoke / dust emission</option><option>💧 Untreated wastewater</option><option>🗑️ Illegal waste dumping</option><option>👃 Chemical smell</option><option>📢 Noise</option></select>
+  <label for="rl">Area</label><select id="rl"></select>
+  <label for="rd">Details</label><textarea id="rd" rows="3" placeholder="Date, time and what you observed"></textarea>
+  <button class="btn" id="send">Submit report</button><div id="msg" class="mu" style="margin-top:8px"></div></div>
+ <div class="card"><h3>Your reports</h3><ul class="list" id="mine"><li class="mu">Nothing yet.</li></ul></div>
+</section>
+
+<section class="view" id="foot">
+ <div class="card"><h3>Factory carbon footprint</h3><div class="mu">Rough monthly CO₂ estimate for a small unit.</div>
+  <label for="kwh">Grid electricity (kWh / month)</label><input id="kwh" type="number" value="20000" min="0">
+  <label for="dsl">Diesel (litres / month)</label><input id="dsl" type="number" value="1500" min="0">
+  <label for="eff">Energy-efficiency upgrade: <b id="effv">20</b>%</label><input id="eff" type="range" min="0" max="50" value="20">
+  <label for="sol">Share of power from renewables: <b id="solv">25</b>%</label><input id="sol" type="range" min="0" max="100" value="25">
+ </div>
+ <div class="card hero"><div class="mu">Estimated emissions after improvements</div><span class="big" id="after">–</span><div class="mu">tonnes CO₂ / month</div>
+  <div class="chips" style="grid-template-columns:repeat(3,1fr)"><div class="chip"><b id="before">–</b>today (t)</div><div class="chip"><b id="saved">–</b>saved (t)</div><div class="chip"><b id="trees">–</b>trees / yr equiv.</div></div></div>
+</section>
+
+<p class="note">Demo data. Readings, alerts and estimates are sample values and may be approximate or delayed; do not use them for medical or safety decisions. Footprint uses rough factors (≈0.7 kg CO₂/kWh grid, 2.68 kg CO₂/L diesel, ≈21 kg CO₂ absorbed per tree per year). *CO₂ ppm is the regional background level.</p>
+</main>
+
+<nav id="tabs"><button class="on" data-t="home"><span>🏭</span>Home</button><button data-t="zones"><span>🗺️</span>Zones</button><button data-t="report"><span>📣</span>Report</button><button data-t="foot"><span>🌍</span>Footprint</button></nav>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var ZONES=[
+ {n:"Patancheru",x:60,y:70,i:168,m:"Pharma & chemicals",k:"Air + wastewater",c:"Effluent treatment upgrades"},
+ {n:"Jeedimetla",x:130,y:50,i:151,m:"Small-scale chemicals",k:"Air emissions",c:"Scrubbers & stack sensors"},
+ {n:"Balanagar",x:190,y:105,i:122,m:"Mixed engineering",k:"Dust + noise",c:"Dust filters, quieter machinery"},
+ {n:"Kattedan",x:245,y:150,i:109,m:"Textiles & plastics",k:"Solid waste",c:"Waste segregation & recycling"},
+ {n:"Uppal",x:270,y:70,i:84,m:"Light industry",k:"Noise",c:"Routine monitoring"}];
+function col(v){return v>150?"var(--bad)":v>100?"var(--mid)":"var(--ok)"}
+// trend bars
+var H=[38,36,40,52,66,78,84,80,74,70,72,76,82,88,92,86,80,74,66,60];
+$("bars").innerHTML=H.map(function(v,i){return '<i class="'+(i>13?'f':'')+'" style="height:'+v+'%"></i>'}).join("");
+// map
+var m=$("map"),s="";
+ZONES.forEach(function(z,i){s+='<circle data-i="'+i+'" cx="'+z.x+'" cy="'+z.y+'" r="'+(10+z.i/25)+'" fill="'+col(z.i)+'" opacity=".85"/><text x="'+z.x+'" y="'+(z.y-18)+'" text-anchor="middle" font-size="10" fill="#fff">'+z.n+'</text>'});
+m.insertAdjacentHTML("beforeend",s);
+m.addEventListener("click",function(e){var i=e.target.getAttribute&&e.target.getAttribute("data-i");if(i===null||i===undefined)return;var z=ZONES[i];
+ $("zinfo").innerHTML='<b style="color:var(--ink)">'+z.n+'</b> · index <b style="color:'+col(z.i)+'">'+z.i+'</b><br>Main industry: '+z.m+'<br>Main concern: '+z.k+'<br>Suggested control: '+z.c+' <span class="badge s">Sample</span>'});
+$("rl").innerHTML=ZONES.map(function(z){return "<option>"+z.n+"</option>"}).join("");
+// tabs
+$("tabs").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+ [].forEach.call(document.querySelectorAll(".view"),function(v){v.classList.remove("on")});$(b.dataset.t).classList.add("on");
+ [].forEach.call(document.querySelectorAll("nav button"),function(x){x.classList.remove("on")});b.classList.add("on");scrollTo(0,0)});
+// reports
+var R=[];try{R=JSON.parse(localStorage.getItem("sw_reports")||"[]")}catch(e){}
+var SEED=[{t:"💨 Smoke / dust emission",l:"Patancheru",d:"Today",b:"Verified"},{t:"💧 Untreated wastewater",l:"Jeedimetla",d:"Yesterday",b:"Sample"}];
+function draw(){
+ $("latest").innerHTML=R.concat(SEED).slice(0,4).map(function(r){return '<li class="row"><div class="ico">'+r.t.split(" ")[0]+'</div><div class="grow">'+r.t.slice(r.t.indexOf(" ")+1)+'<div class="mu">'+r.l+' · '+r.d+'</div></div><span class="badge '+(r.b=="Verified"?"v":r.b=="Pending"?"e":"s")+'">'+r.b+'</span></li>'}).join("");
+ if(R.length)$("mine").innerHTML=R.map(function(r){return '<li>'+r.t+' · '+r.l+'<div class="mu"></div></li>'}).join("");}
+$("send").onclick=function(){var d=$("rd").value.trim();if(!d){$("msg").textContent="Please add a short description.";return}
+ R.unshift({t:$("rt").value,l:$("rl").value,d:"Just now",b:"Pending"});try{localStorage.setItem("sw_reports",JSON.stringify(R))}catch(e){}
+ $("rd").value="";$("msg").textContent="Thanks! Report saved on this device (demo, not sent to authorities).";draw()};
+draw();
+// footprint
+function calc(){var k=+$("kwh").value||0,d=+$("dsl").value||0,ef=+$("eff").value,so=+$("sol").value;
+ $("effv").textContent=ef;$("solv").textContent=so;
+ var b=(k*0.71+d*2.68)/1000,a=(k*(1-ef/100)*(1-so/100)*0.71+d*(1-ef/100)*2.68)/1000;
+ $("before").textContent=b.toFixed(1);$("after").textContent=a.toFixed(1);$("saved").textContent=(b-a).toFixed(1);
+ $("trees").textContent=Math.round((b-a)*12*1000/21).toLocaleString()}
+["kwh","dsl","eff","sol"].forEach(function(i){$(i).addEventListener("input",calc)});calc();
+</script>
+</body>
+</html>

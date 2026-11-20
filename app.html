@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SmokeWatch — Industrial Environmental Monitoring & Intelligence Platform</title>
+  
+  <!-- Leaflet CSS for OpenStreetMap Visualization -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  
+  <!-- Design System & App Styles -->
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Top Operations Header -->
+    <header class="app-header">
+      <div class="app-brand">
+        <div class="brand-logo-mark">
+          <svg class="svg-icon" viewBox="0 0 24 24" stroke-width="2.5">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>SmokeWatch <span class="badge badge-neutral" style="font-size:10px; font-weight:700;">MVP · V2.4</span></h1>
+          <span class="brand-sub">Telangana Industrial Pollution & OCEMS Surveillance</span>
+        </div>
+      </div>
+
+      <div class="header-status-group">
+        <div class="status-pill">
+          <span class="live-indicator-dot"></span>
+          <span>8 Active Zones Monitored</span>
+        </div>
+        <div class="status-pill mono" id="live-ist-clock">
+          --:--:-- IST
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-theme-toggle" class="btn btn-icon" title="Toggle Light/Dark Theme">
+          <svg class="svg-icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+        <a href="index.html" class="btn btn-secondary btn-sm" title="View EVS Research Assessment">
+          <svg class="svg-icon" viewBox="0 0 24 24" style="width:14px; height:14px;">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Research Portal
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Body: Map & Sidebar Inspector -->
+    <div class="app-body">
+      <!-- Left: Interactive OpenStreetMap Container -->
+      <section class="map-viewport" aria-label="Interactive Map of Hyderabad Industrial Zones">
+        <div id="map-container"></div>
+
+        <!-- Floating Zone Selector & Controls Overlay -->
+        <div class="map-floating-overlay">
+          <div class="floating-zone-selector" id="zone-chips-container" role="tablist" aria-label="Industrial Zones">
+            <!-- Chips injected dynamically by app.js -->
+          </div>
+
+          <div class="map-layer-toggles">
+            <button class="layer-toggle-btn is-active" id="toggle-layer-incidents" title="Toggle Incident Pins">
+              <svg class="svg-icon" viewBox="0 0 24 24" style="width:13px; height:13px;">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              Incidents
+            </button>
+            <button class="layer-toggle-btn" id="btn-fit-bounds" title="Fit Entire Hyderabad Industrial Corridor">
+              <svg class="svg-icon" viewBox="0 0 24 24" style="width:13px; height:13px;">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+              </svg>
+              Reset View
+            </button>
+          </div>
+        </div>
+
+        <div class="map-bottom-prompt">
+          <svg class="svg-icon" viewBox="0 0 24 24" style="width:15px; height:15px; color:var(--text-muted);">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span>Select any industrial zone or click anywhere on the map to inspect telemetry & drop incident pins.</span>
+        </div>
+      </section>
+
+      <!-- Right: Inspector Sidebar -->
+      <aside class="inspector-sidebar" aria-label="Telemetry and Controls Inspector">
+        <!-- Navigation Tabs -->
+        <nav class="sidebar-tabs-nav" role="tablist">
+          <button class="sidebar-tab-btn is-active" data-tab="tab-telemetry" role="tab" aria-selected="true">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+            Telemetry
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-incidents" role="tab" aria-selected="false">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Audit Log
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-calculator" role="tab" aria-selected="false">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <rect x="4" y="2" width="16" height="20" rx="2"/>
+              <line x1="8" y1="6" x2="16" y2="6"/>
+              <line x1="16" y1="14" x2="16" y2="18"/>
+              <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>
+            </svg>
+            Abatement Calc
+          </button>
+          <button class="sidebar-tab-btn" data-tab="tab-standards" role="tab" aria-selected="false">
+            <svg class="svg-icon" viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Norms
+          </button>
+        </nav>
+
+        <!-- Tab 1: Live Telemetry Inspector -->
+        <div class="sidebar-tab-content is-active" id="tab-telemetry" role="tabpanel">
+          <!-- Zone Hero Summary Card -->
+          <div class="zone-hero-card">
+            <div class="zone-header-row">
+              <div class="zone-title-area">
+                <h2 id="zone-name">Patancheru Industrial Area</h2>
+                <span class="zone-type-badge" id="zone-type-badge">Major Bulk Drugs & Chemical Belt</span>
+              </div>
+              <span class="badge badge-neutral" id="telemetry-source-badge">Live CAAQMS</span>
+            </div>
+
+            <div class="aqi-hero-gauge">
+              <div class="aqi-number" id="aqi-hero-val">--</div>
+              <div class="aqi-meta">
+                <span class="aqi-naqi-tag" id="aqi-naqi-tag">Calculating</span>
+                <span class="aqi-subtext" id="aqi-hero-subtext">CPCB NAAQS Baseline Synced</span>
+              </div>
+            </div>
+
+            <div style="font-size:11.5px; color:var(--text-muted); display:flex; justify-content:space-between;">
+              <span><strong>Station:</strong> <span id="zone-station-name">TSPCB Continuous Station</span></span>
+              <span><strong>Region:</strong> Greater Hyderabad</span>
+            </div>
+          </div>
+
+          <!-- 6-Pollutant Grid -->
+          <div class="pollutant-grid">
+            <div class="pollutant-chip">
+              <span class="p-name">PM2.5</span>
+              <span class="p-val" id="val-pm2_5">--</span>
+              <span class="badge mono" id="badge-pm2_5">Limit 60</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">PM10</span>
+              <span class="p-val" id="val-pm10">--</span>
+              <span class="badge mono" id="badge-pm10">Limit 100</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">SO₂</span>
+              <span class="p-val" id="val-so2">--</span>
+              <span class="badge mono" id="badge-so2">Limit 80</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">NO₂</span>
+              <span class="p-val" id="val-no2">--</span>
+              <span class="badge mono" id="badge-no2">Limit 80</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">CO (8h)</span>
+              <span class="p-val" id="val-co">--</span>
+              <span class="badge mono" id="badge-co">Limit 2000</span>
+            </div>
+            <div class="pollutant-chip">
+              <span class="p-name">Ozone</span>
+              <span class="p-val" id="val-ozone">--</span>
+              <span class="badge mono" id="badge-ozone">Limit 100</span>
+            </div>
+          </div>
+
+          <!-- 24-Hour Trend Chart (Retina Canvas) -->
+          <div class="trend-card">
+            <div class="trend-card-header">
+              <h3>24-Hour Trend &amp; Model Forecast</h3>
+              <div class="trend-metric-buttons">
+                <button class="trend-btn is-active" data-metric="pm2_5">PM2.5</button>
+                <button class="trend-btn" data-metric="pm10">PM10</button>
+                <button class="trend-btn" data-metric="so2">SO₂</button>
+                <button class="trend-btn" data-metric="aqi">AQI</button>
+              </div>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="telemetry-chart"></canvas>
+            </div>
+            <div style="font-size:10.5px; color:var(--text-muted); margin-top:6px; display:flex; justify-content:space-between;">
+              <span>Solid curve: In-situ ambient telemetry</span>
+              <span>Dashed amber: 12h predictive forecast</span>
+            </div>
+          </div>
+
+          <!-- Industrial Stack OCEMS Surveillance Card -->
+          <div class="telemetry-subpanel">
+            <div class="telemetry-subpanel-header">
+              <h3>
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color:#f59e0b;">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                Continuous Stack Emission (OCEMS)
+              </h3>
+              <span class="badge badge-good">Online Telemetry</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Flue Opacity / Particulate:</span>
+              <span class="meta-val" id="stack-opacity">28.5%</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Flue Gas SO₂ (CPCB &lt; 600):</span>
+              <span class="meta-val" id="stack-so2">480 mg/Nm³</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Scrubber Differential Pressure (ΔP):</span>
+              <span class="meta-val" id="stack-deltap">155 mmWC</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Equipment Operational Status:</span>
+              <span class="meta-val" id="stack-status" style="color:var(--status-good); font-size:11.5px;">Active</span>
+            </div>
+          </div>
+
+          <!-- Common Effluent Treatment Plant (CETP) Card -->
+          <div class="telemetry-subpanel">
+            <div class="telemetry-subpanel-header">
+              <h3>
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color:#06b6d4;">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                </svg>
+                CETP Effluent Quality Stream
+              </h3>
+              <span class="badge badge-neutral" id="cetp-name-val">PETL (7,500 KLD)</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Effluent pH (Norm: 6.5 - 8.5):</span>
+              <span class="meta-val" id="effluent-ph">7.4</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Biochemical Oxygen Demand (BOD &lt; 30):</span>
+              <span class="meta-val" id="effluent-bod">28 mg/L</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Chemical Oxygen Demand (COD &lt; 250):</span>
+              <span class="meta-val" id="effluent-cod">215 mg/L</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Total Dissolved Solids (TDS &lt; 2100):</span>
+              <span class="meta-val" id="effluent-tds">1850 mg/L</span>
+            </div>
+            <div class="subpanel-meta-row">
+              <span class="meta-label">Treatment Cycle:</span>
+              <span class="meta-val" id="effluent-stage" style="font-size:11px;">RO + MEE ZLD</span>
+            </div>
+          </div>
+
+          <!-- Engineering Controls Note -->
+          <div class="panel-card" style="padding:12px; font-size:12px; color:var(--text-secondary); background:var(--bg-surface-raised);">
+            <strong style="color:var(--text-primary); display:block; margin-bottom:4px;">Mandated Engineering Mitigations:</strong>
+            <span id="zone-controls-desc">Zero Liquid Discharge (ZLD) enforcement, Regenerative Thermal Oxidizers (RTOs) for VOCs, and Continuous Stack Opacity Telemetry.</span>
+          </div>
+        </div>
+
+        <!-- Tab 2: Incidents & Citizen Audit Log -->
+        <div class="sidebar-tab-content" id="tab-incidents" role="tabpanel">
+          <div class="panel-card" style="margin-bottom:16px;">
+            <h3 style="font-size:14px; margin-bottom:10px;">Report an Environmental Exceedance</h3>
+            <form id="new-incident-form">
+              <div class="form-group">
+                <label class="form-label" for="rep-title">Incident Title</label>
+                <input type="text" id="rep-title" placeholder="e.g. Heavy acid plume from boiler stack" required>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div class="form-group">
+                  <label class="form-label" for="rep-zone-select">Industrial Zone</label>
+                  <select id="rep-zone-select"></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="rep-severity">Severity Level</label>
+                  <select id="rep-severity">
+                    <option value="Moderate">Moderate Exceedance</option>
+                    <option value="High">High Violation</option>
+                    <option value="Critical">Critical Emergency</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rep-category">Pollution Category</label>
+                <select id="rep-category">
+                  <option value="Flue Gas / Stack Emission">Flue Gas / Stack Emission</option>
+                  <option value="Industrial Effluent Bypass">Industrial Effluent Bypass</option>
+                  <option value="Solid Waste &amp; Open Burning">Solid Waste &amp; Open Burning</option>
+                  <option value="Fugitive Dust &amp; Air Quality">Fugitive Dust &amp; Air Quality</option>
+                  <option value="Toxic Chemical / Solvent Odor">Toxic Chemical / Solvent Odor</option>
+                </select>
+              </div>
+
+              <!-- Coordinate Picker from Map -->
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Geographic Pin</span>
+                  <button type="button" class="btn btn-outline btn-sm" id="btn-pick-location" style="padding:2px 8px; font-size:11px;">Pick on Map</button>
+                </label>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                  <input type="text" id="rep-lat" placeholder="Latitude (17.xxxx)" readonly>
+                  <input type="text" id="rep-lon" placeholder="Longitude (78.xxxx)" readonly>
+                </div>
+                <div id="pick-coords-feedback" style="font-size:11px; color:var(--text-muted); margin-top:4px;">
+                  Coordinates update when you tap anywhere on the OpenStreetMap.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="rep-desc">Specific Observations &amp; Evidence</label>
+                <textarea id="rep-desc" rows="3" placeholder="Describe color of plume, odor characteristics, discharge point, or affected nearby communities." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">
+                Submit Incident Audit
+              </button>
+            </form>
+          </div>
+
+          <!-- Incidents Feed -->
+          <div class="incident-feed-controls">
+            <h3 style="font-size:13.5px; font-weight:700;">Verified Incidents Feed</h3>
+            <span class="badge badge-neutral">TSPCB Dispatch Log</span>
+          </div>
+
+          <div class="incident-feed-list" id="incidents-list-container">
+            <!-- Incidents rendered dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Decarbonization Abatement Calculator -->
+        <div class="sidebar-tab-content" id="tab-calculator" role="tabpanel">
+          <div class="panel-card" style="margin-bottom:16px;">
+            <h3 style="font-size:14.5px; margin-bottom:4px;">Factory Abatement Engineering Engine</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">
+              Quantifies Scope 1 (direct fuels) &amp; Scope 2 (grid electricity) carbon mitigation and particulate arrest rates based on CPCB / CEA India baseline database.
+            </p>
+
+            <!-- Baseline Consumptions -->
+            <div class="form-group">
+              <label class="form-label" for="calc-grid-kwh">
+                <span>Monthly Grid Power Consumption</span>
+                <span class="mono" style="font-size:11px; color:var(--text-muted);">0.71 kg CO₂e / kWh</span>
+              </label>
+              <input type="number" id="calc-grid-kwh" value="35000" min="0" step="500">
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div class="form-group">
+                <label class="form-label" for="calc-diesel-litres">
+                  <span>Diesel for DGs</span>
+                  <span class="mono" style="font-size:10px;">2.68 kg/L</span>
+                </label>
+                <input type="number" id="calc-diesel-litres" value="2400" min="0" step="100">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="calc-coal-kg">
+                  <span>Boiler Fuel (Coal kg)</span>
+                  <span class="mono" style="font-size:10px;">2.42 kg/kg</span>
+                </label>
+                <input type="number" id="calc-coal-kg" value="8000" min="0" step="500">
+              </div>
+            </div>
+
+            <!-- Interventions -->
+            <div style="border-top:1px solid var(--border-subtle); padding-top:12px; margin-top:10px;">
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Waste Heat Recovery &amp; VFD Motors:</span>
+                  <span class="mono" id="calc-eff-val" style="color:var(--primary);">25%</span>
+                </label>
+                <input type="range" id="calc-eff-pct" min="0" max="50" value="25">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Captive Rooftop Solar Installation:</span>
+                  <span class="mono" id="calc-solar-val" style="color:#0284c7;">50 kWp</span>
+                </label>
+                <input type="range" id="calc-solar-kwp" min="0" max="250" value="50" step="10">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  <span>Baghouse &amp; Wet Scrubber Efficiency:</span>
+                  <span class="mono" id="calc-scrub-val" style="color:#f59e0b;">92%</span>
+                </label>
+                <input type="range" id="calc-scrubber-eff" min="50" max="99" value="92">
+              </div>
+            </div>
+          </div>
+
+          <!-- Calculated Abatement Outcomes -->
+          <div class="panel-card" style="background:linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(2,132,199,0.15) 100%); border-color:var(--primary-glow);">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:12px;">
+              <div>
+                <span style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); font-weight:700; display:block;">Net Abated Emissions</span>
+                <span class="mono" id="calc-out-abated" style="font-size:36px; font-weight:800; color:var(--primary);">--</span>
+                <span style="font-size:12px; color:var(--text-secondary);">tCO₂e / month</span>
+              </div>
+              <div style="text-align:right;">
+                <span class="badge badge-good" id="calc-out-pct-reduced" style="font-size:13px; padding:4px 10px;">--% Cut</span>
+                <span style="font-size:11px; color:var(--text-muted); display:block; margin-top:4px;">Baseline: <span id="calc-out-baseline" class="mono">--</span> t</span>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; border-top:1px solid var(--border-subtle); padding-top:12px;">
+              <div class="pollutant-chip">
+                <span class="p-name">Annual CO₂ Saved</span>
+                <span class="p-val mono" id="calc-out-annual-saved" style="color:var(--text-primary); font-size:15px;">--</span>
+                <span style="font-size:10px; color:var(--text-muted);">tonnes/year</span>
+              </div>
+              <div class="pollutant-chip">
+                <span class="p-name">Tree Equivalent</span>
+                <span class="p-val mono" id="calc-out-trees" style="color:var(--primary); font-size:15px;">--</span>
+                <span style="font-size:10px; color:var(--text-muted);">trees/year</span>
+              </div>
+              <div class="pollutant-chip">
+                <span class="p-name">PM Filtered</span>
+                <span class="p-val mono" id="calc-out-pm-captured" style="color:#f59e0b; font-size:15px;">--</span>
+                <span style="font-size:10px; color:var(--text-muted);">kg/month</span>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; padding:8px 12px; background:var(--bg-surface-raised); border-radius:var(--radius-md); display:flex; justify-content:space-between; align-items:center; font-size:12px;">
+              <span style="color:var(--text-secondary);">Estimated Monthly HT-Energy Savings:</span>
+              <span class="mono" id="calc-out-inr-saved" style="font-weight:700; color:var(--primary);">₹--</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Statutory Standards Reference -->
+        <div class="sidebar-tab-content" id="tab-standards" role="tabpanel">
+          <div class="panel-card" style="margin-bottom:14px;">
+            <h3 style="font-size:14px; margin-bottom:8px;">CPCB National Ambient Air Quality Standards (NAAQS)</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Gazette Notification No. B-29016/20/90/PCI-L (Industrial &amp; Residential)</p>
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-subtle); text-align:left; color:var(--text-muted);">
+                  <th style="padding:6px 0;">Pollutant</th>
+                  <th style="padding:6px 0;">Time Weight</th>
+                  <th style="padding:6px 0; text-align:right;">Permissible Limit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">PM2.5</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">24 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">60 µg/m³</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">PM10</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">24 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">100 µg/m³</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Sulphur Dioxide (SO₂)</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">24 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">80 µg/m³</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Nitrogen Dioxide (NO₂)</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">24 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">80 µg/m³</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Carbon Monoxide (CO)</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">8 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">2,000 µg/m³</td>
+                </tr>
+                <tr>
+                  <td style="padding:7px 0; font-weight:600;">Ground-level Ozone (O₃)</td>
+                  <td style="padding:7px 0; color:var(--text-secondary);">8 Hours</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">100 µg/m³</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel-card">
+            <h3 style="font-size:14px; margin-bottom:8px;">TSPCB Industrial Effluent Discharge Standards</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Inland Surface Water Quality Discharge Norms (Schedule VI)</p>
+            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-subtle); text-align:left; color:var(--text-muted);">
+                  <th style="padding:6px 0;">Parameter</th>
+                  <th style="padding:6px 0; text-align:right;">Standard Limit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">pH Value</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">6.5 – 8.5</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Biochemical Oxygen Demand (BOD)</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">&le; 30 mg/L</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Chemical Oxygen Demand (COD)</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">&le; 250 mg/L</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border-subtle);">
+                  <td style="padding:7px 0; font-weight:600;">Total Suspended Solids (TSS)</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">&le; 100 mg/L</td>
+                </tr>
+                <tr>
+                  <td style="padding:7px 0; font-weight:600;">Total Dissolved Solids (TDS)</td>
+                  <td style="padding:7px 0; text-align:right;" class="mono">&le; 2,100 mg/L</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Modular Application Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/chart.js"></script>
+  <script src="assets/js/calculator.js"></script>
+  <script src="assets/js/reports.js"></script>
+  <script src="assets/js/map.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
