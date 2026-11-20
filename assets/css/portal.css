@@ -49,9 +49,39 @@
   color: var(--text-primary);
 }
 
+.portal-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
 @media (max-width: 860px) {
   .portal-nav-links {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .portal-nav {
+    padding: 0 12px;
+  }
+  .portal-nav-inner {
+    height: 56px;
+  }
+  .portal-logo {
+    font-size: 15px;
+    gap: 6px;
+  }
+  .portal-logo-sub {
+    display: none !important;
+  }
+  .portal-nav-actions {
+    gap: 6px;
+  }
+  .portal-nav-actions .btn-sm {
+    padding: 6px 10px;
+    font-size: 12px;
   }
 }
 
@@ -99,11 +129,13 @@
 }
 
 .portal-hero h1 {
-  font-size: clamp(34px, 4.5vw, 54px);
+  font-size: clamp(26px, 5vw, 54px);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
   margin-bottom: 20px;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .portal-hero h1 em {

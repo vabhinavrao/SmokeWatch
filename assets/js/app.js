@@ -5,6 +5,13 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Local dev compatibility: If on localhost or file:// without Vercel rewrites, route / to index.html
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:") {
+    document.querySelectorAll('a[href="/"]').forEach(link => {
+      link.href = "index.html";
+    });
+  }
+
   // Application State
   const state = {
     activeZone: HYDERABAD_ZONES[0], // Default: Patancheru

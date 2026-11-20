@@ -19,6 +19,24 @@
   // 2. Handle Native Install Prompt (beforeinstallprompt)
   let deferredPrompt = null;
 
+  // Setup click listeners on install buttons
+  document.addEventListener("DOMContentLoaded", () => {
+    const installBtns = document.querySelectorAll(".btn-pwa-install");
+    installBtns.forEach(btn => {
+      btn.addEventListener("click", async () => {
+        if (!deferredPrompt) {
+          alert("To install SmokeWatch on your phone or tablet:\n\n• iOS / Safari: Tap the Share button, then 'Add to Home Screen'.\n• Android / Chrome: Tap the three-dot menu, then 'Install app' or 'Add to Home screen'.");
+          return;
+        }
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`[PWA] User response to install prompt: ${outcome}`);
+        deferredPrompt = null;
+        installBtns.forEach(b => b.style.display = "none");
+      });
+    });
+  });
+
   window.addEventListener("beforeinstallprompt", (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
@@ -28,14 +46,6 @@
     const installBtns = document.querySelectorAll(".btn-pwa-install");
     installBtns.forEach(btn => {
       btn.style.display = "inline-flex";
-      btn.addEventListener("click", async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`[PWA] User response to install prompt: ${outcome}`);
-        deferredPrompt = null;
-        installBtns.forEach(b => b.style.display = "none");
-      });
     });
   });
 

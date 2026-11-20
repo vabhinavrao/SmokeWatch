@@ -4,6 +4,13 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Local dev compatibility: If on localhost or file:// without Vercel rewrites, route /app to app.html
+  if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" || window.location.protocol === "file:") {
+    document.querySelectorAll('a[href="/app"]').forEach(link => {
+      link.href = "app.html";
+    });
+  }
+
   // Theme initialization
   const theme = localStorage.getItem("smokewatch_theme") || "dark";
   document.documentElement.setAttribute("data-theme", theme);

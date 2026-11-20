@@ -157,6 +157,19 @@ a {
   user-select: none;
 }
 
+.btn-text-short {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .btn-text-full {
+    display: none;
+  }
+  .btn-text-short {
+    display: inline;
+  }
+}
+
 .btn-primary {
   background: var(--primary);
   color: #ffffff;
