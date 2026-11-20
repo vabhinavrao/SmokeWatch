@@ -434,15 +434,20 @@ document.addEventListener("DOMContentLoaded", () => {
         scrubberEffPercent
       });
 
-      // Update UI outputs
-      document.getElementById("calc-out-baseline").textContent = result.baselineTonnes;
-      document.getElementById("calc-out-abated").textContent = result.abatedTonnes;
-      document.getElementById("calc-out-monthly-saved").textContent = result.monthlySavedTonnes;
-      document.getElementById("calc-out-annual-saved").textContent = result.annualSavedTonnes;
-      document.getElementById("calc-out-pct-reduced").textContent = `${result.percentageReduction}%`;
-      document.getElementById("calc-out-trees").textContent = result.treesEquivalent;
-      document.getElementById("calc-out-pm-captured").textContent = result.capturedPmKg;
-      document.getElementById("calc-out-inr-saved").textContent = `₹${result.monthlyCostSavingsInr}`;
+      // Update UI outputs safely
+      const setTxt = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      };
+
+      setTxt("calc-out-baseline", result.baselineTonnes);
+      setTxt("calc-out-abated", result.abatedTonnes);
+      setTxt("calc-out-monthly-saved", result.monthlySavedTonnes);
+      setTxt("calc-out-annual-saved", result.annualSavedTonnes);
+      setTxt("calc-out-pct-reduced", `${result.percentageReduction}%`);
+      setTxt("calc-out-trees", result.treesEquivalent);
+      setTxt("calc-out-pm-captured", result.capturedPmKg);
+      setTxt("calc-out-inr-saved", `₹${result.monthlyCostSavingsInr}`);
     };
 
     inputs.forEach(id => {
