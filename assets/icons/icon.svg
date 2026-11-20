@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="sw-pwa-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="sw-pwa-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  
+  <!-- App Background -->
+  <rect x="32" y="32" width="448" height="448" rx="100" fill="url(#sw-pwa-grad)" filter="url(#sw-pwa-shadow)"/>
+  
+  <!-- Stylized Telemetry Waves -->
+  <path d="M 280 160 A 80 80 0 0 1 360 240" stroke="rgba(255,255,255,0.7)" stroke-width="12" stroke-linecap="round"/>
+  <path d="M 290 120 A 120 120 0 0 1 410 240" stroke="rgba(255,255,255,0.5)" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Clean Industrial Stacks -->
+  <!-- Base Foundation -->
+  <rect x="140" y="320" width="232" height="42" rx="12" fill="#ffffff"/>
+  <!-- Left Stack -->
+  <rect x="160" y="220" width="70" height="100" rx="10" fill="#ffffff"/>
+  <!-- Right Stack (Taller) -->
+  <rect x="250" y="160" width="70" height="160" rx="10" fill="#ffffff"/>
+  
+  <!-- Sensor Telemetry Node Dot -->
+  <circle cx="285" cy="120" r="16" fill="#38bdf8"/>
+  <circle cx="285" cy="120" r="26" stroke="#38bdf8" stroke-width="4" stroke-opacity="0.6"/>
+</svg>
