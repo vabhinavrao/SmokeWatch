@@ -1,0 +1,9 @@
+{
+  "name": "smokewatch-telangana",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/app", "destination": "/app.html" },
+    { "source": "/tracker", "destination": "/app.html" },
+    { "source": "/portal", "destination": "/index.html" }
+  ]
+}

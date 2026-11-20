@@ -159,6 +159,23 @@ document.addEventListener("DOMContentLoaded", () => {
       aqiSubEl.textContent = `CPCB NAAQS Baseline: ${cur.pm2_5} µg/m³ PM2.5 · Station synced`;
     }
 
+    // Update Mobile Glance Card
+    const glanceNameEl = document.getElementById("glance-zone-name");
+    const glanceAqiEl = document.getElementById("glance-aqi-val");
+    const glanceBadgeEl = document.getElementById("glance-naqi-badge");
+
+    if (glanceNameEl) glanceNameEl.textContent = state.activeZone.name;
+    if (glanceAqiEl) {
+      glanceAqiEl.textContent = `AQI ${cur.aqi}`;
+      glanceAqiEl.style.color = cur.naqiColor;
+    }
+    if (glanceBadgeEl) {
+      glanceBadgeEl.textContent = cur.naqiCategory;
+      glanceBadgeEl.style.backgroundColor = cur.naqiBg;
+      glanceBadgeEl.style.color = cur.naqiColor;
+      glanceBadgeEl.style.border = `1px solid ${cur.naqiColor}44`;
+    }
+
     // Update 6 Pollutant Chips
     setPollutantChip("pm2_5", cur.pm2_5, CPCB_STANDARDS.pm2_5.limit, "µg/m³");
     setPollutantChip("pm10", cur.pm10, CPCB_STANDARDS.pm10.limit, "µg/m³");
@@ -308,6 +325,45 @@ document.addEventListener("DOMContentLoaded", () => {
     if (fitBoundsBtn) {
       fitBoundsBtn.addEventListener("click", () => {
         mapEngine.fitAllZones();
+      });
+    }
+
+    // Mobile Navigation & View Switching
+    const mobileNavButtons = document.querySelectorAll(".mobile-nav-btn");
+    const switchMobileView = (viewKey) => {
+      mobileNavButtons.forEach(btn => {
+        btn.classList.toggle("is-active", btn.dataset.mobileView === viewKey);
+      });
+
+      if (viewKey === "map") {
+        document.body.classList.remove("mobile-view-inspector");
+        setTimeout(() => {
+          if (mapEngine && mapEngine.map) mapEngine.map.invalidateSize();
+        }, 150);
+      } else {
+        document.body.classList.add("mobile-view-inspector");
+        const targetTabBtn = document.querySelector(`.sidebar-tab-btn[data-tab="${viewKey}"]`);
+        if (targetTabBtn) targetTabBtn.click();
+      }
+    };
+
+    mobileNavButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        switchMobileView(btn.dataset.mobileView);
+      });
+    });
+
+    const openGlanceBtn = document.getElementById("btn-open-glance-details");
+    if (openGlanceBtn) {
+      openGlanceBtn.addEventListener("click", () => {
+        switchMobileView("tab-telemetry");
+      });
+    }
+
+    const backToMapBtn = document.getElementById("btn-back-to-map");
+    if (backToMapBtn) {
+      backToMapBtn.addEventListener("click", () => {
+        switchMobileView("map");
       });
     }
   }

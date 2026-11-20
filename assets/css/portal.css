@@ -165,6 +165,21 @@
   .portal-stats-row {
     grid-template-columns: repeat(2, 1fr);
     margin-top: 24px;
+    margin-bottom: 40px;
+  }
+  .portal-hero {
+    padding: 48px 0 40px;
+  }
+  .portal-section {
+    padding: 56px 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .portal-stats-row {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+    margin-bottom: 32px;
   }
 }
 

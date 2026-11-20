@@ -1,5 +1,6 @@
 /**
  * SmokeWatch - Live Industrial Environmental Monitoring & Intelligence Platform Styles
+ * Modern, Clean, App-like Interface (Desktop & Mobile Optimized)
  */
 
 /* Main App Layout */
@@ -10,17 +11,18 @@
   width: 100vw;
   overflow: hidden;
   background: var(--bg-app);
+  position: relative;
 }
 
 /* App Header Toolbar */
 .app-header {
-  height: 56px;
+  height: 54px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 18px;
+  padding: 0 16px;
   z-index: 1000;
   flex-shrink: 0;
 }
@@ -28,32 +30,34 @@
 .app-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .brand-logo-mark {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   background: linear-gradient(135deg, #059669 0%, #0284c7 100%);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+  flex-shrink: 0;
 }
 
 .brand-text h1 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  margin: 0;
 }
 
 .brand-sub {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
   font-family: var(--font-mono);
   display: block;
@@ -63,29 +67,31 @@
 .header-status-group {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
 .status-pill {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 4px 10px;
+  gap: 6px;
+  padding: 3px 9px;
   background: var(--bg-surface-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
-  font-size: 12px;
+  font-size: 11.5px;
   font-family: var(--font-mono);
   color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .live-indicator-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--primary);
-  box-shadow: 0 0 8px var(--primary);
+  box-shadow: 0 0 6px var(--primary);
   animation: pulseLive 2s infinite ease-in-out;
+  flex-shrink: 0;
 }
 
 @keyframes pulseLive {
@@ -96,10 +102,10 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* App Body (Split Pane) */
+/* App Body */
 .app-body {
   display: flex;
   flex: 1;
@@ -107,12 +113,12 @@
   position: relative;
 }
 
-/* Left / Main Map Section */
+/* Map Viewport Container */
 .map-viewport {
   flex: 1;
   height: 100%;
   position: relative;
-  background: #06090e;
+  background: #090d16;
 }
 
 #map-container {
@@ -121,7 +127,7 @@
   z-index: 1;
 }
 
-/* OpenStreetMap Tiles Styling (100% Free OpenStreetMap with Zero API Key) */
+/* OpenStreetMap Tiles Styling */
 [data-theme="dark"] .map-viewport .leaflet-tile-pane {
   filter: brightness(0.65) invert(1) contrast(1.5) hue-rotate(200deg) saturate(0.35);
 }
@@ -130,44 +136,51 @@
   filter: none;
 }
 
-/* Floating Overlay on Map */
-.map-floating-overlay {
+/* Top Floating Zone Selector (Clean horizontal pill strip) */
+.map-top-bar {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  right: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  pointer-events: none;
+  top: 12px;
+  left: 12px;
+  right: 12px;
   z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
 }
 
 .floating-zone-selector {
   pointer-events: auto;
   display: flex;
-  gap: 6px;
-  background: rgba(17, 24, 39, 0.85);
+  gap: 5px;
+  background: rgba(15, 23, 42, 0.88);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 5px;
-  border-radius: var(--radius-lg);
+  padding: 4px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-md);
-  max-width: 680px;
+  max-width: calc(100% - 100px);
   overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+
+.floating-zone-selector::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 [data-theme="light"] .floating-zone-selector {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .zone-chip {
-  padding: 5px 12px;
-  font-size: 12px;
+  padding: 4px 11px;
+  font-size: 11.5px;
   font-weight: 600;
   font-family: var(--font-sans);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   background: transparent;
   color: var(--text-secondary);
   border: 1px solid transparent;
@@ -184,37 +197,39 @@
 .zone-chip.is-active {
   background: var(--primary);
   color: #ffffff;
-  box-shadow: 0 2px 8px var(--primary-glow);
+  box-shadow: 0 1px 6px var(--primary-glow);
 }
 
+/* Floating Layer Controls (Top Right) */
 .map-layer-toggles {
   pointer-events: auto;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: rgba(17, 24, 39, 0.85);
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.88);
   backdrop-filter: blur(12px);
-  padding: 6px;
-  border-radius: var(--radius-md);
+  padding: 4px;
+  border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
 }
 
 [data-theme="light"] .map-layer-toggles {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .layer-toggle-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  font-size: 11.5px;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
+  gap: 5px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
   background: transparent;
   color: var(--text-secondary);
   border: none;
   cursor: pointer;
+  transition: all var(--transition-fast);
 }
 
 .layer-toggle-btn:hover {
@@ -224,35 +239,77 @@
 
 .layer-toggle-btn.is-active {
   color: #38bdf8;
-  background: rgba(56, 189, 248, 0.12);
+  background: rgba(56, 189, 248, 0.15);
 }
 
-/* Floating Bottom Map Helper */
-.map-bottom-prompt {
+/* Floating Active Zone Glance Card on Map (Mobile & Tablet) */
+.map-zone-glance-card {
   position: absolute;
   bottom: 16px;
-  left: 16px;
+  left: 14px;
+  right: 14px;
   z-index: 500;
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(12px);
-  padding: 8px 14px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
-  font-size: 12px;
-  color: var(--text-secondary);
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-lg);
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: auto;
+  animation: slideUp 200ms ease-out;
+}
+
+[data-theme="light"] .map-zone-glance-card {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.glance-zone-info h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.glance-meta {
   display: flex;
   align-items: center;
   gap: 8px;
-  pointer-events: auto;
+  font-size: 11.5px;
 }
 
-[data-theme="light"] .map-bottom-prompt {
-  background: rgba(255, 255, 255, 0.92);
+.glance-aqi-val {
+  font-family: var(--font-mono);
+  font-weight: 800;
 }
 
-/* Right Sidebar Inspector Pane */
+.glance-action-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Right Sidebar Inspector Pane (Desktop) */
 .inspector-sidebar {
-  width: 440px;
+  width: 420px;
   height: 100%;
   background: var(--bg-surface);
   border-left: 1px solid var(--border-subtle);
@@ -268,17 +325,22 @@
   display: flex;
   border-bottom: 1px solid var(--border-subtle);
   background: var(--bg-surface-raised);
-  padding: 6px 8px 0;
-  gap: 4px;
+  padding: 4px 6px 0;
+  gap: 3px;
   overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.sidebar-tabs-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebar-tab-btn {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 12px;
-  font-size: 12.5px;
+  gap: 6px;
+  padding: 8px 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
   background: transparent;
@@ -300,65 +362,66 @@
   background: var(--bg-surface);
   border-color: var(--border-subtle);
   border-bottom-color: var(--bg-surface);
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Tab Content Viewport */
 .sidebar-tab-content {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 14px;
   display: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sidebar-tab-content.is-active {
   display: block;
 }
 
-/* Hero Zone Telemetry Card */
+/* Zone Hero Summary Card */
 .zone-hero-card {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.95) 100%);
   border: 1px solid var(--border-medium);
   border-radius: var(--radius-lg);
-  padding: 18px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
+  padding: 16px;
+  margin-bottom: 14px;
 }
 
 [data-theme="light"] .zone-hero-card {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
 .zone-header-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  gap: 8px;
 }
 
 .zone-title-area h2 {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .zone-type-badge {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   font-family: var(--font-mono);
+  display: block;
+  margin-top: 2px;
 }
 
 .aqi-hero-gauge {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  margin: 10px 0 14px;
+  margin: 8px 0 12px;
 }
 
 .aqi-number {
   font-family: var(--font-sans);
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -367,21 +430,21 @@
 .aqi-meta {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .aqi-naqi-tag {
   display: inline-block;
-  padding: 3px 10px;
+  padding: 2px 9px;
   border-radius: var(--radius-full);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
   font-family: var(--font-mono);
   text-transform: uppercase;
 }
 
 .aqi-subtext {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
@@ -389,20 +452,24 @@
 .pollutant-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 7px;
+  margin-bottom: 14px;
 }
 
 .pollutant-chip {
   background: var(--bg-surface-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 8px 10px;
+  padding: 8px 6px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 64px;
 }
 
 .pollutant-chip .p-name {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text-muted);
   display: block;
@@ -410,17 +477,18 @@
 
 .pollutant-chip .p-val {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 2px 0;
+  margin: 1px 0;
   display: block;
 }
 
-.pollutant-chip .p-limit {
-  font-size: 10px;
-  color: var(--text-secondary);
-  font-family: var(--font-mono);
+.pollutant-chip .badge {
+  font-size: 9px;
+  padding: 1px 5px;
+  align-self: center;
+  max-width: 100%;
 }
 
 /* 24-Hour Trend Container */
@@ -428,30 +496,32 @@
   background: var(--bg-surface-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 14px;
-  margin-bottom: 16px;
+  padding: 12px;
+  margin-bottom: 14px;
 }
 
 .trend-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  gap: 6px;
 }
 
 .trend-card-header h3 {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
+  margin: 0;
 }
 
 .trend-metric-buttons {
   display: flex;
-  gap: 4px;
+  gap: 3px;
 }
 
 .trend-btn {
-  padding: 3px 7px;
-  font-size: 11px;
+  padding: 2px 6px;
+  font-size: 10.5px;
   font-family: var(--font-mono);
   background: var(--bg-inset);
   color: var(--text-secondary);
@@ -468,7 +538,7 @@
 
 .chart-wrapper {
   width: 100%;
-  height: 150px;
+  height: 140px;
   position: relative;
 }
 
@@ -483,33 +553,36 @@
   background: var(--bg-surface-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
-  padding: 14px;
-  margin-bottom: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
 }
 
 .telemetry-subpanel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border-subtle);
+  gap: 6px;
 }
 
 .telemetry-subpanel-header h3 {
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
+  margin: 0;
 }
 
 .subpanel-meta-row {
   display: flex;
   justify-content: space-between;
-  font-size: 12.5px;
-  padding: 5px 0;
+  font-size: 12px;
+  padding: 4px 0;
   border-bottom: 1px solid var(--border-subtle);
+  gap: 8px;
 }
 
 .subpanel-meta-row:last-child {
@@ -524,6 +597,7 @@
   font-family: var(--font-mono);
   font-weight: 600;
   color: var(--text-primary);
+  text-align: right;
 }
 
 /* Incidents Tab Feed */
@@ -531,20 +605,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .incident-feed-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .incident-item-card {
   background: var(--bg-surface-raised);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 12px;
+  padding: 10px 12px;
   transition: border-color var(--transition-fast);
 }
 
@@ -556,36 +630,36 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .incident-id {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-muted);
 }
 
 .incident-card-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .incident-card-desc {
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.4;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .incident-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   border-top: 1px solid var(--border-subtle);
-  padding-top: 6px;
+  padding-top: 5px;
 }
 
 /* Leaflet Custom Marker & Popup Styles */
@@ -597,9 +671,9 @@
 .sw-zone-marker {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   cursor: pointer;
-  transform: translate(-12px, -12px);
+  transform: translate(-14px, -14px);
 }
 
 .sw-marker-dot {
@@ -643,8 +717,9 @@
   100% { transform: scale(1.4); opacity: 0; }
 }
 
+/* De-cluttered Marker Label: only show full label on active zone or on hover */
 .sw-marker-label {
-  background: rgba(15, 23, 42, 0.88);
+  background: rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(8px);
   padding: 3px 8px;
   border-radius: var(--radius-full);
@@ -654,20 +729,32 @@
   gap: 6px;
   align-items: center;
   box-shadow: var(--shadow-sm);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
 }
 
 [data-theme="light"] .sw-marker-label {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.sw-zone-marker:not(.is-active) .sw-marker-label {
+  opacity: 0.7;
+}
+
+.sw-zone-marker.is-active .sw-marker-label {
+  opacity: 1;
+  border-color: #38bdf8;
+  transform: scale(1.05);
 }
 
 .sw-label-name {
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .sw-label-val {
-  font-size: 11px;
+  font-size: 10.5px;
   font-family: var(--font-mono);
   font-weight: 700;
 }
@@ -678,89 +765,122 @@
 }
 
 .sw-incident-bubble {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .sw-pin-svg {
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   transform: rotate(45deg);
 }
 
-/* Map Popups */
-.leaflet-popup-content-wrapper {
-  background: var(--bg-surface) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--border-medium) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: var(--shadow-lg) !important;
-  padding: 0 !important;
+/* Mobile Bottom Navigation Bar */
+.mobile-app-nav {
+  display: none;
+  height: 56px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 1000;
+  flex-shrink: 0;
 }
 
-.leaflet-popup-content {
-  margin: 12px 14px !important;
-  line-height: 1.4 !important;
-}
-
-.leaflet-popup-tip {
-  background: var(--bg-surface) !important;
-}
-
-.sw-map-popup .sw-popup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.sw-popup-id {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-muted);
-}
-
-.sw-popup-title {
-  font-size: 13.5px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.sw-popup-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.sw-popup-meta {
-  font-size: 11px;
-  color: var(--text-muted);
+.mobile-nav-btn {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 5px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color var(--transition-fast);
 }
 
-/* Responsive adjustments */
+.mobile-nav-btn.is-active {
+  color: var(--primary);
+}
+
+.mobile-nav-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsive Overhaul for Mobile & Tablets (<960px) */
 @media (max-width: 960px) {
-  .app-body {
-    flex-direction: column;
+  .app-header .header-status-group {
+    display: none; /* Hide clock and status badge on mobile header to prevent wrapping */
   }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .floating-zone-selector {
+    max-width: calc(100% - 90px);
+  }
+
+  .map-layer-toggles .layer-toggle-btn span {
+    display: none; /* Icon only on mobile */
+  }
+
+  .map-zone-glance-card {
+    display: flex; /* Show glance card on mobile map view */
+  }
+
+  /* Full screen view switching on mobile */
+  .mobile-app-nav {
+    display: flex;
+  }
+
+  .app-body {
+    flex-direction: row;
+    position: relative;
+  }
+
+  .map-viewport {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
   .inspector-sidebar {
     width: 100%;
-    height: 48vh;
-    border-left: none;
-    border-top: 1px solid var(--border-subtle);
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: none;
+    z-index: 800;
   }
-  .map-viewport {
-    height: 52vh;
+
+  /* When an inspector tab is active on mobile, hide the map and show the inspector */
+  body.mobile-view-inspector .map-viewport {
+    display: none;
+  }
+  body.mobile-view-inspector .inspector-sidebar {
+    display: flex;
+  }
+
+  /* Marker labels on mobile: hide inactive labels completely to prevent overlapping */
+  .sw-zone-marker:not(.is-active) .sw-marker-label {
+    display: none;
+  }
+
+  .pollutant-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
