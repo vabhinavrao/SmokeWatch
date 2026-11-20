@@ -1,5 +1,10 @@
 # SmokeWatch — Industrial Environmental Monitoring & Intelligence Platform
 
+[![Production Deployment](https://img.shields.io/badge/Vercel-smokewatch--telangana.vercel.app-black?logo=vercel&logoColor=white)](https://smokewatch-telangana.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-vabhinavrao%2FSmokeWatch-181717?logo=github&logoColor=white)](https://github.com/vabhinavrao/SmokeWatch)
+[![OpenStreetMap](https://img.shields.io/badge/Map-OpenStreetMap-7EBC6F?logo=openstreetmap&logoColor=white)](https://smokewatch-telangana.vercel.app/app)
+[![Open-Meteo API](https://img.shields.io/badge/Telemetry-Open--Meteo%20Live-0284c7)](https://open-meteo.com)
+
 > **An Engineering Assessment & IoT Surveillance System for Industrial Emissions, Effluent Streams, and Decarbonization across Greater Hyderabad.**
 > Developed for the **Environmental Studies (EVS)** curriculum, Department of Computer Science & Engineering (**CSE-B**), **Hyderabad Institute of Technology and Management (HITAM)**.
 
