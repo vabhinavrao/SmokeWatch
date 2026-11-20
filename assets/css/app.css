@@ -121,6 +121,15 @@
   z-index: 1;
 }
 
+/* OpenStreetMap Tiles Styling (100% Free OpenStreetMap with Zero API Key) */
+[data-theme="dark"] .map-viewport .leaflet-tile-pane {
+  filter: brightness(0.65) invert(1) contrast(1.5) hue-rotate(200deg) saturate(0.35);
+}
+
+[data-theme="light"] .map-viewport .leaflet-tile-pane {
+  filter: none;
+}
+
 /* Floating Overlay on Map */
 .map-floating-overlay {
   position: absolute;

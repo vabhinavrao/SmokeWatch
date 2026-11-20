@@ -49,10 +49,10 @@ class SmokeWatchMap {
 
     // Custom minimal attribution
     L.control.attribution({ position: "bottomright", prefix: false })
-      .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> &copy; <a href="https://carto.com/" target="_blank">CARTO</a>')
+      .addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors')
       .addTo(this.map);
 
-    // Add Tile Layer based on theme
+    // Add 100% Free OpenStreetMap Tile Layer
     this.updateTiles(this.options.theme);
 
     // Layer group for incident pins
@@ -80,13 +80,13 @@ class SmokeWatchMap {
       this.map.removeLayer(this.tileLayer);
     }
 
-    const tileUrl = theme === "light"
-      ? "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-      : "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+    // 100% Free OpenStreetMap Tile Source (Zero API key required)
+    // Uses official OpenStreetMap standard tile servers with maxZoom 19
+    const tileUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 
     this.tileLayer = L.tileLayer(tileUrl, {
-      subdomains: "abcd",
-      maxZoom: 19
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
     }).addTo(this.map);
   }
 

@@ -292,6 +292,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    const toggleOsmStyleBtn = document.getElementById("toggle-osm-style");
+    if (toggleOsmStyleBtn) {
+      toggleOsmStyleBtn.addEventListener("click", () => {
+        const pane = document.querySelector(".map-viewport .leaflet-tile-pane");
+        if (pane) {
+          const isNatural = pane.style.filter === "none";
+          pane.style.filter = isNatural ? "" : "none";
+          toggleOsmStyleBtn.classList.toggle("is-active", !isNatural);
+        }
+      });
+    }
+
     const fitBoundsBtn = document.getElementById("btn-fit-bounds");
     if (fitBoundsBtn) {
       fitBoundsBtn.addEventListener("click", () => {
